@@ -1,0 +1,41 @@
+本项目是在集团的 TDDL sequence 基础上进行的业务封装, 所以初始化的方法请参考[集团文档](http://gitlab.alibaba-inc.com/middleware/tddl5-wiki/wikis/Sequence-Quick-Start)
+
+当你在同一个应用中有不同的流水号需要时, 需要设置不同的 SerialNumberGenerator Bean 对应不同的 Sequence Bean
+
+HILO 算法
+
+'''yml
+serial:
+  -
+    unionCode: xxx
+    numberLength: 6
+    dateFormat: yyyyMMdd
+    zone: Asia/Shanghai
+    prefix: xxx
+    postfix: xxx
+'''
+
+201801010001
+201801010002
+201801010003
+...
+201801019997
+
+201801029998
+201801029999
+201801020001
+201801020002
+...
+
+201801010001
+201801010002
+201801010003
+...
+201801019997
+
+201801020001
+201801020002
+201801020003
+....
+201801029997
+...

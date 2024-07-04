@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:hsf="http://www.taobao.com/hsf"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.taobao.com/hsf
+       http://www.taobao.com/hsf/hsf.xsd" default-autowire="byName">
+    <!-- 提供一个服务示例 -->
+    <hsf:provider id="serialNumberGeneratorServiceProvider" interface="com.yintai.serialnumbergen.service.SerialNumberGeneratorService"
+        ref="serialNumberGeneratorServiceImpl" version="1.0.0" group="com.yintai.serialnumbergen">
+    </hsf:provider>
+    <hsf:provider id="generationRuleServiceProvider" interface="com.yintai.serialnumbergen.service.GenerationRuleService"
+                  ref="generationRuleServiceImpl" version="1.0.0" group="com.yintai.serialnumbergen">
+    </hsf:provider>
+</beans>

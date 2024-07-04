@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- https://github.com/spring-projects/spring-boot/blob/v1.5.9.RELEASE/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
+    <property name="CONSOLE_LOG_PATTERN" value="%-4d [%thread] %highlight%-5level %cyan%logger.%-10method - %message%n"/>
+    <property name="FILE_LOG_PATTERN" value="%date %level [%thread] %logger{30} [%file:%line] %msg%n"/>
+
+    <property name="APP_NAME" value="log-test" />
+    <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs" />
+    <property name="LOG_FILE" value="${LOG_PATH}/application.log" />
+
+    <appender name="APPLICATION"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <provider class="com.alibaba.mos.eagleeye.log.EagleEyeProvider"/>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
+            <provider class="com.alibaba.mos.eagleeye.log.AppNameProvider"/>
+            <jsonFactoryDecorator class="com.alibaba.mos.eagleeye.log.ObjectMapperDecorator"/>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC_APPLICATION" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="APPLICATION"/>
+    </appender>
+
+    <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="CONSOLE"/>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC_CONSOLE" />
+        <appender-ref ref="ASYNC_APPLICATION" />
+    </root>
+</configuration>

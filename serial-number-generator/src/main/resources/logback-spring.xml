@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <contextName>serial-number-generator</contextName>
+
+    <springProfile name="development,develop">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="org.nofdev.logging.CustomJsonLayout">
+                    <appendLineSeparator>true</appendLineSeparator>
+                    <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</timestampFormat>
+                    <timestampFormatTimezoneId>UTC</timestampFormatTimezoneId>
+                    <jsonFormatter class="org.nofdev.logging.CustomJacksonJsonFormatter">
+                        <!--是否需要对json格式打印-->
+                        <prettyPrint>true</prettyPrint>
+                    </jsonFormatter>
+                    <logPrefix>
+                        <prefixSwitch>false</prefixSwitch>
+                        <prefixText>~~~json~~~</prefixText>
+                    </logPrefix>
+                    <!--对日志的某些键值对统一处理，具体使用方法见单元测试，如果你不需要可以注释掉这段代码-->
+                    <logPostProcessor class="org.nofdev.eagleeye.CallIdLogPostProcessor"/>
+                </layout>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+        <logger name="com.yintai" level="DEBUG"/>
+
+        <!--JPA 显示执行的SQL和参数-->
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="org.hibernate.type" level="TRACE"/>
+    </springProfile>
+
+    <springProfile name="production,pre,testing,test">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="org.nofdev.logging.CustomJsonLayout">
+                    <appendLineSeparator>true</appendLineSeparator>
+                    <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</timestampFormat>
+                    <timestampFormatTimezoneId>UTC</timestampFormatTimezoneId>
+                    <jsonFormatter class="org.nofdev.logging.CustomJacksonJsonFormatter">
+                        <!--是否需要对json格式打印-->
+                        <prettyPrint>false</prettyPrint>
+                    </jsonFormatter>
+                    <logPrefix>
+                        <prefixSwitch>false</prefixSwitch>
+                        <prefixText>~~~json~~~</prefixText>
+                    </logPrefix>
+                    <!--对日志的某些键值对统一处理，具体使用方法见单元测试，如果你不需要可以注释掉这段代码-->
+                    <logPostProcessor class="org.nofdev.eagleeye.CallIdLogPostProcessor"/>
+                </layout>
+            </encoder>
+        </appender>
+
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>/home/admin/logs/edas/app.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                <fileNamePattern>/home/admin/logs/edas/app.log.%i</fileNamePattern>
+                <minIndex>1</minIndex>
+                <maxIndex>20</maxIndex>
+            </rollingPolicy>
+            <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                <maxFileSize>1024MB</maxFileSize>
+            </triggeringPolicy>
+            <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+                <layout class="org.nofdev.logging.CustomJsonLayout">
+                    <appendLineSeparator>true</appendLineSeparator>
+                    <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</timestampFormat>
+                    <timestampFormatTimezoneId>UTC</timestampFormatTimezoneId>
+                    <jsonFormatter class="org.nofdev.logging.CustomJacksonJsonFormatter">
+                        <!--是否需要对json格式打印-->
+                        <prettyPrint>false</prettyPrint>
+                    </jsonFormatter>
+                    <logPrefix>
+                        <prefixSwitch>false</prefixSwitch>
+                        <prefixText>~~~json~~~</prefixText>
+                    </logPrefix>
+                    <!--对日志的某些键值对统一处理，具体使用方法见单元测试，如果你不需要可以注释掉这段代码-->
+                    <logPostProcessor class="org.nofdev.eagleeye.CallIdLogPostProcessor"/>
+                </layout>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+
+        <logger name="com.yintai" level="DEBUG"/>
+    </springProfile>
+
+    <logger name="org.nofdev.eagleeye.log" level="DEBUG"/>
+    <logger name="org.apache" level="INFO"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.eclipse.jetty" level="INFO"/>
+    <logger name="jndi" level="INFO"/>
+    <logger name="org.hibernate" level="INFO"/>
+</configuration>

@@ -1,0 +1,43 @@
+spring:
+  datasources:
+    -
+      name: primary
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://rm-bp166p06xh46f2y63.mysql.rds.aliyuncs.com:3306/serial-number-generator?characterEncoding=utf8&useSSL=true
+      username: serialnumbergen
+      password: changeme
+      jmxEnabled: true
+      tomcat:
+        maxWait: 10000
+        initialSize: 10
+        maxActive: 100
+        minIdle: 10
+        maxIdle: 100
+        defaultTransactionIsolation: 2
+        testOnBorrow: true
+        testWhileIdle: true
+        jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+    -
+      name: shadow
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql://rm-bp166p06xh46f2y63.mysql.rds.aliyuncs.com:3306/serial-number-generator-shadow?characterEncoding=utf8&useSSL=true
+      username: serialnumbergen
+      password: changeme
+      jmxEnabled: true
+      tomcat:
+        maxWait: 10000
+        initialSize: 10
+        maxActive: 100
+        minIdle: 10
+        maxIdle: 100
+        defaultTransactionIsolation: 2
+        testOnBorrow: true
+        testWhileIdle: true
+        jdbcInterceptors: "ConnectionState;StatementCache(max=200)"
+  hsf:
+    version: 1.0.0
+    group: intime_group
+aliyun:
+  schedulerXClient:
+    groupId: 101-1-2-3293
+    regionName: cn-hangzhou

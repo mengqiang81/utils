@@ -1,0 +1,22 @@
+server.port: 8080
+
+spring:
+  jpa:
+    database: MYSQL
+    hibernate:
+        ddl-auto: none
+    generate-ddl: true
+    properties:
+      jadira:
+        usertype:
+          autoRegisterUserTypes: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  application:
+    name: serial-number-generator
+  hsf:
+    version: 1.0.0.DAILY
+    timeout: 3000
+    group: intime_daily
+
+spring.profiles.active: testing
